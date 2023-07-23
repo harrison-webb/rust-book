@@ -1,36 +1,51 @@
-use regex::Regex;
 use std::io;
 
 fn main() {
-    println!("Convert fahrenheit to celcius, or celcius to fahrenheit");
-    println!("Enter the temperature you want to convert, followed by F for fahrenheit or C for celsius (ex: 84F): ");
-    let mut temperature = String::new();
-
     loop {
-        temperature = String::new();
+        println!("Enter temperature to convert (e.g. 86F or 32C) or 'quit' to exit: ");
+        let mut input = String::new();
+
         // read input
-        io::stdin()
-            .read_line(&mut temperature)
-            .expect("Failed to read input");
+        match io::stdin().read_line(&mut input) {
+            Ok(_) => {}
+            Err(e) => {
+                eprintln!("Error reading line: {}", e);
+                continue;
+            }
+        };
 
-        temperature = temperature.trim().to_owned();
+        let input = input.trim().to_lowercase();
 
-        // validate input. must be <number>F, <number>f, <number>C, or <number>c
-        let re = Regex::new(r"^-?[0-9]+[fFcC]$").unwrap();
-        if re.is_match(temperature.as_str()) {
+        if input == "quit" {
             break;
-        } else {
-            println!("Invalid input, please try again");
         }
-    }
 
-    let unit = temperature.pop();
-    let value: f64 = temperature.trim().parse().unwrap();
+        let (temp, unit) = input.split_at(input.len() - 1);
 
-    if unit == Some('f') || unit == Some('F') {
-        println!("{}C", f_to_c(value));
-    } else {
-        println!("{}F", c_to_f(value));
+        let temp: f64 = match temp.parse() {
+            Ok(val) => val,
+            Err(_) => {
+                println!(
+                    "Invalid input: '{}'. Please enter a number followed by 'F' or 'C'",
+                    temp
+                );
+                continue;
+            }
+        };
+
+        match unit {
+            "f" => {
+                println!("{}C", f_to_c(temp));
+                break;
+            }
+            "c" => {
+                println!("{}F", c_to_f(temp));
+                break;
+            }
+            _ => {
+                println!("Invalid unit: '{}'. Please use 'F' or 'C'", unit);
+            }
+        }
     }
 }
 
