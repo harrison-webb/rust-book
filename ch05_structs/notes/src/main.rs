@@ -1,5 +1,3 @@
-use std::simd::StdFloat;
-
 fn main() {
     //////////////////////////////////////////
     // 5.1 -- Structs
@@ -95,7 +93,7 @@ fn main() {
             self.width * self.height
         }
 
-        fn can_hold(&self, &rect: &Rectangle) -> bool {
+        fn can_hold(&self, rect: &Rectangle) -> bool {
             self.width > rect.width && self.height > rect.height
         }
 
