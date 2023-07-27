@@ -1,4 +1,9 @@
+use std::simd::StdFloat;
+
 fn main() {
+    //////////////////////////////////////////
+    // 5.1 -- Structs
+
     // Defining a struct:
     struct User {
         active: bool,
@@ -73,4 +78,45 @@ fn main() {
     // "useful when you want to implement a trait on some type, but don't have any data that you want to store in the type itself"
     struct SomethingOrAnother;
     let this_or_that = SomethingOrAnother;
+
+    /////////////////////////////////////////////////////////
+    // 5.3 -- Method Syntax
+
+    // methods are like functions (defined w/ fn, have parameters, return values), but are defined within the context of a struct/enum/trait object
+    #[derive(Debug)]
+    struct Rectangle {
+        width: u32,
+        height: u32,
+    }
+
+    // Everything within this impl block is associated with the Rectangle type
+    impl Rectangle {
+        fn area(&self) -> u32 {
+            self.width * self.height
+        }
+
+        fn can_hold(&self, &rect: &Rectangle) -> bool {
+            self.width > rect.width && self.height > rect.height
+        }
+
+        // This is an "associated function" because it is defined in the impl block, but doesn't have &self as the first parameter
+        // It is basically a function that acts as a "constructor" for a square (aka a Rectangle with width == height)
+        // "Self" anywhere within an impl block refers to the type that comes after the impl keyword, so Rectangle here
+        fn square(size: u32) -> Self {
+            Self {
+                width: size,
+                height: size,
+            }
+        }
+    }
+
+    let rec1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+
+    println!("The area of the rectangle is {} square pixels", rec1.area());
+
+    // To call associated functions, use the :: syntax
+    let my_square = Rectangle::square(5);
 }
