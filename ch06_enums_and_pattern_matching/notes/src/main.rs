@@ -78,4 +78,24 @@ fn main() {
     // For example, a value of type i32, or char, or bool, will ALWAYS have a valid value, and only values with
     //   type Option<i32> or Option<char> or Option<bool> even have the possibility of containing an invalid value
     // "This helps catch one of the most common issues with null: assuming that something isn't null when it actually is"
+
+    ////////////////////////////////////////
+    // 6.2 -- match
+
+    // values go through each pattern in a match, and the first pattern that the value "fits" is "returned" from the match
+    enum Coin {
+        Penny,
+        Nickel,
+        Dime,
+        Quarter,
+    }
+
+    fn value_in_cents(coin: Coin) -> u8 {
+        match coin {
+            Coin::Penny => 1,
+            Coin::Nickel => 5,
+            Coin::Dime => 10,
+            Coin::Quarter => 25,
+        }
+    }
 }
