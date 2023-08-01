@@ -98,4 +98,44 @@ fn main() {
             Coin::Quarter => 25,
         }
     }
+
+    // matching with Option<T>
+    // When you want to get the inner value out of an Option<T>, you can use a match statement to handle it
+    fn plus_one(x: Option<i32>) -> Option<i32> {
+        match x {
+            None => None,
+            Some(i) => Some(i + 1),
+        }
+    }
+
+    // In a match statement, the arms' patterns must cover ALL of the possibilities
+    // catch-all patterns and the "_" Placeholder:
+    // if we want to have a match statement do thing A for one arm, thing B for another, and thing C for all other possible values,
+    //   we can use a catch-all pattern at the end of the match statement
+    fn do_something() {}
+    fn undo_something() {}
+    let dice_roll = 9;
+    match dice_roll {
+        3 => do_something(),
+        7 => undo_something(),
+        other => println!("catch all branch {}", other),
+    }
+
+    // can also do something similar when we want to use a catch-all but don't want to use the value
+    fn go_to_jail() {}
+    fn double_money() {}
+    fn reroll() {}
+    let dice_roll = 6;
+    match dice_roll {
+        2 => go_to_jail(),
+        6 => double_money(),
+        _ => reroll(),
+    }
+
+    // finally, you can make nothing happen for a certain arm of a match statement by returning an empty tuple
+    match dice_roll {
+        1 => go_to_jail(),
+        5 => double_money(),
+        _ => (),
+    }
 }
