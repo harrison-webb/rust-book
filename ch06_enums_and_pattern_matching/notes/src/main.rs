@@ -138,4 +138,38 @@ fn main() {
         5 => double_money(),
         _ => (),
     }
+
+    /////////////////////////////////////////////
+    // 6.3 -- if let
+
+    // lets you combine if and let into a less verbose way to handle values that match one pattern while ignoring the rest
+
+    // normal way:
+    let config_max = Some(3u8);
+    match config_max {
+        Some(max) => println!("Using config_max here: {}", max),
+        _ => (),
+    }
+
+    // using if let
+    let config_max = Some(3u8);
+    if let Some(max) = config_max {
+        println!("Using config_max here: {}", max);
+    }
+
+    // if let else
+    // with match
+    let mut count = 1;
+    match coin {
+        Coin::Quarter(state) => println!("Quarter from {}", state),
+        _ => count += 1,
+    }
+
+    // with if let else
+    let mut count = 1;
+    if let Coin::Quarter(state) = coin {
+        println!("Quarter from {}", state);
+    } else {
+        count += 1;
+    }
 }
